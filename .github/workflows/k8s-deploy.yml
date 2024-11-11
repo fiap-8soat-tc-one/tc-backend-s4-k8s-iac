@@ -1,0 +1,35 @@
+name: EKS-Deploy
+
+on:
+    workflow_dispatch:  # Configuração para deploy manual
+
+env:
+    CLUSTER_NAME: fiap-8soat-team32
+          
+jobs:
+  deploy:
+    name: Deploying using AWS Academy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ vars.AWS_REGION }}
+  
+      - name: Update Kube Config
+        run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}
+
+      - name: Deploy EKS
+        run: |
+            kubectl apply -f src/k8s/1-namespace.yaml
+            kubectl apply -f src/k8s/2-secrets.yaml
+            kubectl apply -f src/k8s/3-deployment.yaml
+            kubectl apply -f src/k8s/4-hpa.yaml
+            kubectl apply -f src/k8s/5-services.yaml
