@@ -4,6 +4,8 @@
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
+**/hashicorp/*
+hashicorp/
 
 # .tfstate files
 *.tfstate
