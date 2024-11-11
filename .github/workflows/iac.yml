@@ -29,10 +29,13 @@ jobs:
 
 
     - name: Initialize Terraform
+      working-directory: ./src/infra
       run: terraform init
 
     - name: Terraform Plan
+      working-directory: ./src/infra
       run: terraform plan -out=tfplan
 
     - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan
+      working-directory: ./src/infra
+      run: terraform apply -auto-approve tfplan     
