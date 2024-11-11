@@ -1,10 +1,9 @@
-# .github/workflows/deploy.yml
 name: Terraform Deploy to AWS
 
 on:
   push:
     branches:
-      - main  # Executa o deploy na branch 'main'
+      - main 
 
 jobs:
   terraform:
@@ -25,7 +24,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ vars.AWS_REGION }}
 
     - name: Initialize Terraform
       run: terraform init
