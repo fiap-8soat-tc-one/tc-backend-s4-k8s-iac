@@ -1,4 +1,4 @@
-name: Terraform Deploy to AWS
+name: Terraform Destroy Deploy to AWS
 
 on:
   workflow_dispatch:  # Configuração para deploy manual
