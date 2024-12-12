@@ -8,7 +8,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "bucket-tf-state-grupo32"
+    bucket = "bucket-tf-state-fiap-team-32"
     key    = "eks/terraform.state"
     region = "us-east-1"
   }
@@ -19,8 +19,8 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Environment = "PRD"
-      Owner       = "GRUPO32"
+      Environment = "stg"
+      Owner       = "t32"
       Managed-by  = "Terraform"
     }
   }

@@ -8,8 +8,12 @@ env:
           
 jobs:
   deploy:
-    name: Deploying using AWS Academy
+    name: Terraform Deploy
     runs-on: ubuntu-latest
+    
+    environment:
+      name: staging
+
 
     steps:
       - name: Checkout
@@ -20,8 +24,10 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Get Session Token
+        run: echo aws sts get-session-token 
   
       - name: Update Kube Config
         run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ vars.AWS_REGION }}

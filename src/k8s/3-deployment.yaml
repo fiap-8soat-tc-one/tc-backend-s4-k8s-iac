@@ -4,7 +4,7 @@ metadata:
   name: app-tc-backend-s2-dep
   namespace: fiap
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: app-tc-backend-s2
@@ -22,14 +22,17 @@ spec:
               protocol: TCP           
           resources:
             requests:
-              cpu: "300m"
-              memory: "512Mi"
+              cpu: "100m"
+              memory: "128Mi"
             limits:
-              cpu: "500m"
-              memory: "1Gi"
+              cpu: "300m"
+              memory: "256Mi"
           env:
             - name: DATABASE_HOST
-              value: db-tc-backends2.ch22s8kum70l.us-east-1.rds.amazonaws.com
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-rds
+                  key: host
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
