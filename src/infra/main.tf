@@ -1,23 +1,27 @@
-# Specify the AWS provider
-provider "aws" {
-  region = "us-east-1"  # Substitua pela região preferida, se necessário
-}
-
-# Configure o backend para armazenar o estado no bucket S3 especificado
 terraform {
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.75.1"
+    }
+  }
+
   backend "s3" {
-    bucket = "fiap-2bdc9c48"  # Nome do bucket onde o estado será armazenado
-    key    = "terraform/states/team32.tfstate"  # Caminho do arquivo de estado dentro do bucket
-    region = "us-east-1"  # Região do bucket
+    bucket = "bucket-tf-state-fiap-team-32"
+    key    = "eks/terraform.state"
+    region = "us-east-1"
   }
 }
 
-# Create an S3 bucket
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "fiap-8soat-team32-s3"  # Substitua com o nome desejado do bucket
-}
+provider "aws" {
+  region = "us-east-1"
 
-# Output the bucket name
-output "bucket_name" {
-  value = aws_s3_bucket.my_bucket.bucket
+  default_tags {
+    tags = {
+      Environment = "stg"
+      Owner       = "t32"
+      Managed-by  = "Terraform"
+    }
+  }
 }
