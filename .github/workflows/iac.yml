@@ -1,9 +1,7 @@
 name: Terraform Deploy to AWS
 
 on:
-  push:
-    branches:
-      - main 
+  workflow_dispatch:  # Configuração para deploy manual
 
 jobs:
   build:

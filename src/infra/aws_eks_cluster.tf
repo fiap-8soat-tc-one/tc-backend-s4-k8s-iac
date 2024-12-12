@@ -20,9 +20,9 @@ resource "aws_eks_node_group" "node_group" {
   node_role_arn   = aws_iam_role.eks_worker_role.arn
 
   scaling_config {
-    desired_size = 1
-    min_size     = 1
-    max_size     = 1
+    desired_size = 2
+    min_size     = 2
+    max_size     = 2
   }
 
   subnet_ids = [
@@ -30,7 +30,7 @@ resource "aws_eks_node_group" "node_group" {
     aws_subnet.public_subnet_b.id
   ]
 
-  instance_types = ["t2.micro"]
+  instance_types = ["t3.medium"]
 
   tags = {
     Name = "eks-fiap-nodes"

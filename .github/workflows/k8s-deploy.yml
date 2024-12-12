@@ -1,10 +1,8 @@
 name: EKS-Deploy
-
 on:
     workflow_dispatch:  # Configuração para deploy manual
-
 env:
-    CLUSTER_NAME: fiap-8soat-team32
+    CLUSTER_NAME: eks-fiap-cluster
           
 jobs:
   deploy:
@@ -13,7 +11,6 @@ jobs:
     
     environment:
       name: staging
-
 
     steps:
       - name: Checkout

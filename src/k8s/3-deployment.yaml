@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-tc-backend-s2-dep
+  name: app-tc-backend-s3-dep
   namespace: fiap
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-tc-backend-s2
+      app: app-tc-backend-s3
   template:
     metadata:
       labels:
-        app: app-tc-backend-s2
+        app: app-tc-backend-s3
     spec:
       containers:
-        - name: app-tc-backend-s2
+        - name: app-tc-backend-s3
           image: 'jcmds/fiap-8soat-tc:latest'
           ports:
             - name: http 
