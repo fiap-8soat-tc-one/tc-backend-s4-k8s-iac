@@ -1,10 +1,85 @@
-# O que é o K3d ?
+# Kubernetes e Amazon Elastic Kubernetes Service (EKS)
+
+## O que é Kubernetes?
+
+Kubernetes (K8s) é uma plataforma de orquestração de contêineres open-source que automatiza a implantação, o dimensionamento e a gestão de aplicativos em contêiner. Ele foi originalmente desenvolvido pelo Google e atualmente é mantido pela Cloud Native Computing Foundation (CNCF).
+
+Com o Kubernetes, é possível gerenciar clusters de máquinas virtuais ou físicas e distribuir aplicativos em contêineres por esses clusters, fornecendo alta disponibilidade, escalabilidade automática e automação de tarefas operacionais.
+
+### Principais Componentes do Kubernetes
+
+1. **Cluster**: Conjunto de nós gerenciados pelo Kubernetes.
+   - **Master Node**: Responsável pelo controle e gerenciamento do cluster.
+   - **Worker Nodes**: Executam os aplicativos contêinerizados.
+
+2. **Pods**: A menor unidade do Kubernetes. Representa uma instância de um contêiner (ou grupo de contêineres) que compartilha a mesma rede e armazenamento.
+
+3. **Deployment**: Gerencia a implantação e o ciclo de vida dos pods.
+
+4. **Services**: Exposição de um grupo de pods para comunicação dentro e fora do cluster.
+
+5. **Ingress**: Gerencia o tráfego externo para os serviços.
+
+6. **ConfigMaps e Secrets**: Gerenciam configurações e informações sensíveis, como senhas.
+
+## Vantagens do Kubernetes
+
+1. **Portabilidade**:
+   - Kubernetes é agnóstico de provedor de nuvem, permitindo rodar workloads em qualquer lugar (AWS, Google Cloud, Azure, ou on-premises).
+
+2. **Escalabilidade Automática**:
+   - Escala automaticamente as aplicações (Horizontal Pod Autoscaler) e os nós (Cluster Autoscaler) conforme a demanda.
+
+3. **Resiliência e Recuperação Automática**:
+   - Monitora continuamente os pods e reinicia automaticamente aqueles que falham.
+
+4. **Ecossistema Extensível**:
+   - Suporte a várias ferramentas e extensões, como Helm (gerenciamento de pacotes), Prometheus (monitoramento), e Istio (malha de serviço).
+
+5. **Gestão Declarativa**:
+   - A infraestrutura é gerenciada como código (IaC) usando arquivos YAML ou ferramentas como Terraform.
+
+---
+
+## Rodando na nuvem, O que é Amazon EKS?
+
+O Amazon Elastic Kubernetes Service (EKS) é um serviço gerenciado pela AWS que facilita a execução de clusters Kubernetes na nuvem da AWS ou on-premises. Ele elimina a complexidade operacional de gerenciar o plano de controle (control plane) do Kubernetes, como atualizações, escalabilidade e alta disponibilidade.
+
+O EKS permite que você aproveite o ecossistema Kubernetes nativo (como ferramentas, extensões e integrações), mas com a simplicidade e confiabilidade de um serviço gerenciado pela AWS.
+
+## Por que usar Amazon EKS?
+
+O Amazon EKS combina a robustez do Kubernetes com a simplicidade e a integração da AWS. Abaixo, listamos as principais razões para escolher o EKS:
+
+### **Vantagens do EKS**
+
+1. **Serviço Gerenciado**:
+   - O EKS gerencia automaticamente o plano de controle (control plane) e os nós mestres. Isso inclui patches, atualizações e alta disponibilidade.
+
+2. **Alta Disponibilidade**:
+   - O plano de controle do EKS é replicado automaticamente em várias zonas de disponibilidade (AZs), garantindo tolerância a falhas.
+
+3. **Integração com AWS**:
+   - Suporte nativo para ferramentas AWS como CloudWatch (monitoramento), IAM (controle de acesso), VPC, ELB (balançador de carga), e Route 53.
+
+4. **Segurança Avançada**:
+   - Integração nativa com AWS IAM para autenticação e controle de acesso.
+   - Suporte ao AWS PrivateLink para execução segura dentro de VPCs privadas.
+
+5. **Escalabilidade Dinâmica**:
+   - Suporte para escalar nós automaticamente com o Cluster Autoscaler ou o Karpenter.
+   - Escalabilidade horizontal dos pods baseada na demanda.
+
+6. **Flexibilidade de Execução**:
+   - Suporte para instâncias EC2, Fargate (serverless) ou ambientes híbridos.
+
+## Rodando locamente, O que é o K3d ?
 
 O k3d é uma ferramenta leve que serve como um facilitador para executar o k3s, uma distribuição mínima do Kubernetes desenvolvida pelo Rancher Labs. Ele permite que desenvolvedores criem e gerenciem clusters k3s de forma rápida e fácil diretamente no Docker.
 
 Atualmente o k3s é um projeto que é mantido pela comunidade open-source, apesar de ser um produto desenvildo pela Racher Labs ele não é comercializado pela (SUSE), seu desenvolvimento foi pensando no dia a dia, para facilitar a vida dos desenvolvedores e administradores de infraestrutura no deployment de aplicações, através da sua simplicidade e otimização de recursos de hardware como memória e CPU do clusters/nodes.
 
-# Como instalar um cluster local utilizando k3d ?
+### Como instalar um cluster local utilizando k3d ?
 
 Para instalar e utilizar um cluster K3d em seu ambiente local é necessário os seguintes softwares instalado:
 
