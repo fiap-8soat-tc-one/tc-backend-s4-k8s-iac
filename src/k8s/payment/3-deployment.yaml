@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-tc-backend-s3-dep
+  name: app-tc-payment-s4-dep
   namespace: fiap
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-tc-backend-s3
+      app: app-tc-payment-s4
   template:
     metadata:
       labels:
-        app: app-tc-backend-s3
+        app: app-tc-payment-s4
     spec:
       containers:
-        - name: app-tc-backend-s3
+        - name: app-tc-payment-s4
           image: 'jcmds/fiap-8soat-tc:latest'
           ports:
             - name: http 
@@ -31,17 +31,17 @@ spec:
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: credentials-rds
+                  name: credentials-payment-rds
                   key: host
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: credentials-rds
+                  name: credentials-payment-rds
                   key: username
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
-                  name: credentials-rds
+                  name: credentials-payment-rds
                   key: password
             - name: DATABASE_PORT
               value: "5432"

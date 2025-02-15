@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-tc-order-s4-dep
+  namespace: fiap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-tc-order-s4
+  template:
+    metadata:
+      labels:
+        app: app-tc-order-s4
+    spec:
+      containers:
+        - name: app-tc-order-s4
+          image: 'jcmds/fiap-8soat-tc:latest'
+          ports:
+            - name: http 
+              containerPort: 8080
+              protocol: TCP           
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+          env:
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-order-rds
+                  key: host
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-order-rds
+                  key: username
+            - name: DATABASE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: credentials-order-rds
+                  key: password
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: postgres
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%                 
+        
+        
+
+
+ 

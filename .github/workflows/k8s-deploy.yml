@@ -31,8 +31,26 @@ jobs:
 
       - name: Deploy EKS
         run: |
-            kubectl apply -f src/k8s/1-namespace.yaml
-            kubectl apply -f src/k8s/2-secrets.yaml
-            kubectl apply -f src/k8s/3-deployment.yaml
-            kubectl apply -f src/k8s/4-hpa.yaml
-            kubectl apply -f src/k8s/5-services.yaml
+            kubectl apply -f src/k8s/auth/1-namespace.yaml
+            kubectl apply -f src/k8s/auth/2-secrets.yaml
+            kubectl apply -f src/k8s/auth/3-deployment.yaml
+            kubectl apply -f src/k8s/auth/4-hpa.yaml
+            kubectl apply -f src/k8s/auth/5-services.yaml
+            
+            kubectl apply -f src/k8s/backoffice/1-namespace.yaml
+            kubectl apply -f src/k8s/backoffice/2-secrets.yaml
+            kubectl apply -f src/k8s/backoffice/3-deployment.yaml
+            kubectl apply -f src/k8s/backoffice/4-hpa.yaml
+            kubectl apply -f src/k8s/backoffice/5-services.yaml
+
+            kubectl apply -f src/k8s/order/1-namespace.yaml
+            kubectl apply -f src/k8s/order/2-secrets.yaml
+            kubectl apply -f src/k8s/order/3-deployment.yaml
+            kubectl apply -f src/k8s/order/4-hpa.yaml
+            kubectl apply -f src/k8s/order/5-services.yaml
+
+            kubectl apply -f src/k8s/payment/1-namespace.yaml
+            kubectl apply -f src/k8s/payment/2-secrets.yaml
+            kubectl apply -f src/k8s/payment/3-deployment.yaml
+            kubectl apply -f src/k8s/payment/4-hpa.yaml
+            kubectl apply -f src/k8s/payment/5-services.yaml

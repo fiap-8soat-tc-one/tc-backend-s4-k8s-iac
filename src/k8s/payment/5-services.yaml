@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-tc-backend-s3-svc
+  name: app-tc-payment-s4-svc
   namespace: fiap 
 spec:
   selector:
-    app: app-tc-backend-s3
+    app: app-tc-payment-s4
   ports:
   - protocol: TCP
     port: 80
