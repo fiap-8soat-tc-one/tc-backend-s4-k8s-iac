@@ -15,38 +15,38 @@ spec:
     spec:
       containers:
         - name: app-tc-auth-s4
-          image: 'jcmds/fiap-8soat-tc:latest'
+          image: 'jcmds/fiap-8soat-tc-s4-auth:latest'
           ports:
             - name: http 
-              containerPort: 8080
+              containerPort: 8081
               protocol: TCP           
           resources:
             requests:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "300m"
-              memory: "256Mi"
+              cpu: "600m"
+              memory: "1Gi"
           env:
             - name: DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: credentials-auth-rds
-                  key: host
+              value: app-auth-db-postgresql.fiap.svc.cluster.local
             - name: DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: credentials-auth-rds
-                  key: username
+              value: postgres
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
-                  name: credentials-auth-rds
-                  key: password
+                  name: app-auth-db-postgresql
+                  key: postgres-password
             - name: DATABASE_PORT
               value: "5432"
             - name: DATABASE_NAME
               value: postgres
+            - name: BACKOFFICE_APP_HOST
+              value: app-tc-backoffice-s4-svc.fiap.svc.cluster.local
+            - name: REDIS_HOST
+              value: redis-master.fiap.svc.cluster.local
+            - name: OAUTH_APP_HOST
+              value: app-tc-auth-s4-svc.fiap.svc.cluster.local      
       restartPolicy: Always
   strategy:
     type: RollingUpdate

@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-tc-order-s4-dep
+  namespace: fiap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-tc-order-s4
+  template:
+    metadata:
+      labels:
+        app: app-tc-order-s4
+    spec:
+      containers:
+        - name: app-tc-order-s4
+          image: 'jcmds/fiap-8soat-tc-s4-order:backend-20250217.5'
+          ports:
+            - name: http 
+              containerPort: 8082
+              protocol: TCP           
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "600m"
+              memory: "1Gi"
+          env:
+            - name: DATABASE_HOST
+              value: app-order-db-postgresql.fiap.svc.cluster.local
+            - name: DATABASE_USER
+              value: postgres
+            - name: DATABASE_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: app-order-db-postgresql
+                  key: postgres-password
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: postgres
+            - name: REDIS_HOST
+              value: redis-master.fiap.svc.cluster.local
+            - name: RABBITMQ_HOST
+              value: rabbitmq.fiap.svc.cluster.local
+            - name: RABBITMQ_PORT
+              value: '5672'              
+            - name: RABBITMQ_USER
+              value: 'admin'
+            - name: RABBITMQ_PASSWORD
+              value: 'admin'
+            - name: BACKOFFICE_APP_HOST
+              value: app-tc-backoffice-s4-svc.fiap.svc.cluster.local
+            - name: OAUTH_APP_HOST
+              value: app-tc-auth-s4-svc.fiap.svc.cluster.local                                                                           
+      restartPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%                 
+        
+        
+
+
+ 

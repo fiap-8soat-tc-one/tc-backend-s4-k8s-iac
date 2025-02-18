@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-tc-payment-s4-dep
+  name: app-tc-backoffice-s4-dep
   namespace: fiap
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-tc-payment-s4
+      app: app-tc-backoffice-s4
   template:
     metadata:
       labels:
-        app: app-tc-payment-s4
+        app: app-tc-backoffice-s4
     spec:
       containers:
-        - name: app-tc-payment-s4
-          image: 'jcmds/fiap-8soat-tc:latest'
+        - name: app-tc-backoffice-s4
+          image: 'jcmds/fiap-8soat-tc-s4-backoffice:latest'
           ports:
             - name: http 
               containerPort: 8080
@@ -25,28 +25,24 @@ spec:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "300m"
-              memory: "256Mi"
+              cpu: "600m"
+              memory: "1Gi"
           env:
             - name: DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: credentials-payment-rds
-                  key: host
+              value: app-backoffice-db-postgresql.fiap.svc.cluster.local
             - name: DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: credentials-payment-rds
-                  key: username
+              value: postgres
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
-                  name: credentials-payment-rds
-                  key: password
+                  name: app-backoffice-db-postgresql
+                  key: postgres-password
             - name: DATABASE_PORT
               value: "5432"
             - name: DATABASE_NAME
               value: postgres
+            - name: OAUTH_APP_HOST
+              value: app-tc-auth-s4-svc.fiap.svc.cluster.local  
       restartPolicy: Always
   strategy:
     type: RollingUpdate

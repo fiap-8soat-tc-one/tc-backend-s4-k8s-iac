@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-tc-order-s4-svc
+  name: app-tc-backoffice-s4-svc
   namespace: fiap 
 spec:
   selector:
-    app: app-tc-order-s4
+    app: app-tc-backoffice-s4
   ports:
   - protocol: TCP
     port: 80
     targetPort: 8080
-  type: LoadBalancer
+  type: NodePort

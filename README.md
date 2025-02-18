@@ -203,5 +203,29 @@ Execute o seguinte comando para validar se sua aplicação está rodando correta
 
 ![alt text](/assets/image%207.png)
 
-
 Parabéns, sua aplicação está rodando. 👏 🚀
+
+### Fase 4
+
+Para fase 4 criamos um script helms com o intuito de conseguir rodar localmente via kubernetes (KIND)
+
+```sh
+
+helm install app-auth-db bitnami/postgresql  --namespace fiap --create-namespace --set primary.persistence.enabled=false --set auth.username=myuser --set auth.password=mypassword --set auth.database=mydb
+helm install app-backoffice-db bitnami/postgresql --namespace fiap --create-namespace  --set primary.persistence.enabled=false --set auth.username=myuser --set auth.password=mypassword --set auth.database=mydb
+helm install app-order-db bitnami/postgresql   --namespace fiap --create-namespace --set primary.persistence.enabled=false --set auth.username=myuser --set auth.password=mypassword --set auth.database=mydb
+helm install rabbitmq bitnami/rabbitmq --namespace fiap --create-namespace --set auth.username=admin --set auth.password=admin --set persistence.enabled=false
+helm install redis bitnami/redis --namespace fiap --create-namespace --set architecture=standalone --set auth.enabled=false --set master.persistence.enabled=false
+helm install mongodb bitnami/mongodb --namespace fiap --create-namespace --set architecture=standalone --set auth.rootUser=admin --set auth.rootPassword=admin --set persistence.enabled=false
+
+kubectl patch svc app-auth-db-postgresql -p '{"spec": {"type": "NodePort", "ports": [{"port": 5432, "nodePort": 30080}]}}'
+kubectl patch svc app-backoffice-db-postgresql -p '{"spec": {"type": "NodePort", "ports": [{"port": 5432, "nodePort": 30081}]}}'
+kubectl patch svc app-order-db-postgresql -p '{"spec": {"type": "NodePort", "ports": [{"port": 5432, "nodePort": 30082}]}}'
+kubectl patch svc redis-master  -p '{"spec": {"type": "NodePort", "ports": [{"port": 6379, "nodePort": 30084}]}}'
+kubectl patch svc rabbitmq -n fiap -p '{"spec": {"type": "NodePort", "ports": [{"port": 5672, "nodePort": 30088}, {"port": 15672, "nodePort": 30086}]}}'
+kubectl patch svc app-tc-auth-s4-svc  -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "nodePort": 30083}]}}'
+kubectl patch svc app-tc-backoffice-s4-svc  -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "nodePort": 30085}]}}'
+kubectl patch svc app-tc-order-s4-svc -n fiap -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "nodePort": 30087}]}}'
+kubectl patch svc mongodb -n fiap -p '{"spec": {"type": "NodePort", "ports": [{"port": 27017, "nodePort": 30089}]}}'
+kubectl patch svc app-tc-payment-s4-svc -n fiap -p '{"spec": {"type": "NodePort", "ports": [{"port": 80, "nodePort": 30090}]}}'
+```
